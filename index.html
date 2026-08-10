@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lais & Jonathan | 11.09.2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="petal-field" aria-hidden="true"></div>
+
+<main class="stage">
+  <section class="invite-card" role="region" aria-label="Convite de casamento de Lais e Jonathan">
+
+    <svg class="corner corner-tl" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="none">
+        <g transform="translate(20,20)">
+          <ellipse cx="0" cy="-14" rx="13" ry="18" fill="#f8b7d6" transform="rotate(0)"/>
+          <ellipse cx="13" cy="-6" rx="13" ry="18" fill="#e766a8" transform="rotate(70)"/>
+          <ellipse cx="8" cy="10" rx="13" ry="18" fill="#d6197e" transform="rotate(140)"/>
+          <ellipse cx="-8" cy="10" rx="13" ry="18" fill="#e766a8" transform="rotate(210)"/>
+          <ellipse cx="-13" cy="-6" rx="13" ry="18" fill="#f8b7d6" transform="rotate(280)"/>
+          <circle cx="0" cy="0" r="6" fill="#8f0f56"/>
+        </g>
+        <circle cx="58" cy="10" r="6" fill="#f2a1cd"/>
+        <circle cx="70" cy="4" r="4" fill="#e766a8"/>
+        <path d="M20 45 Q10 70 25 95" stroke="#c98fb0" stroke-width="1.5"/>
+        <circle cx="24" cy="70" r="5" fill="#d6197e"/>
+        <circle cx="18" cy="90" r="4" fill="#f2a1cd"/>
+      </g>
+    </svg>
+
+    <svg class="corner corner-br" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="none">
+        <g transform="translate(24,24)">
+          <ellipse cx="0" cy="-14" rx="13" ry="18" fill="#f8b7d6" transform="rotate(20)"/>
+          <ellipse cx="13" cy="-6" rx="13" ry="18" fill="#e766a8" transform="rotate(90)"/>
+          <ellipse cx="8" cy="10" rx="13" ry="18" fill="#d6197e" transform="rotate(160)"/>
+          <ellipse cx="-8" cy="10" rx="13" ry="18" fill="#e766a8" transform="rotate(230)"/>
+          <ellipse cx="-13" cy="-6" rx="13" ry="18" fill="#f8b7d6" transform="rotate(300)"/>
+          <circle cx="0" cy="0" r="6" fill="#8f0f56"/>
+        </g>
+        <circle cx="62" cy="14" r="6" fill="#f2a1cd"/>
+        <circle cx="74" cy="6" r="4" fill="#e766a8"/>
+        <path d="M22 48 Q12 72 28 98" stroke="#c98fb0" stroke-width="1.5"/>
+        <circle cx="26" cy="74" r="5" fill="#d6197e"/>
+        <circle cx="20" cy="94" r="4" fill="#f2a1cd"/>
+      </g>
+    </svg>
+
+    <p class="eyebrow">Nós vamos nos casar</p>
+
+    <h1 class="names">Lais<span class="amp">&amp;</span>Jonathan</h1>
+
+    <p class="lede">Convidam para a celebração de seu casamento que será realizada dia</p>
+
+    <p class="date">11 de setembro de 2027</p>
+    <p class="weekday">sábado às 16 horas</p>
+
+    <div class="divider"></div>
+
+    <p class="venue">
+      <strong>Buffet Callegari</strong><br>
+      Mairiporã &mdash; São Paulo
+    </p>
+
+    <div class="rsvp-wrap">
+
+      <!-- Painel 1: pergunta -->
+      <div id="panel-question" class="panel is-active">
+        <p class="rsvp-question">Confirmar comparecimento</p>
+        <div class="rsvp-buttons">
+          <button type="button" class="btn btn-primary" id="btn-sim">Sim</button>
+          <button type="button" class="btn btn-ghost" id="btn-nao">Não</button>
+        </div>
+      </div>
+
+      <!-- Painel 2: formulário -->
+      <div id="panel-form" class="panel">
+        <p class="form-title">Que alegria!</p>
+        <p class="form-sub">Preencha os dados para confirmarmos sua presença</p>
+        <form id="rsvp-form" novalidate>
+          <div class="field">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="acompanhante">Nome completo do acompanhante</label>
+            <input type="text" id="acompanhante" name="acompanhante" autocomplete="off" placeholder="Se não houver, deixe em branco">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Confirmar presença</button>
+            <button type="button" class="back-link" id="btn-voltar-form">Voltar</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Painel 3: obrigado (sim) -->
+      <div id="panel-obrigado" class="panel">
+        <div class="result-icon">&#10084;</div>
+        <p class="result-title">Presença confirmada</p>
+        <p class="result-text" id="obrigado-texto">Mal podemos esperar para celebrar esse dia com você!</p>
+        <p class="result-names">(11) 95131-5012 &middot; Aguardo sua confirmação!</p>
+      </div>
+
+      <!-- Painel 4: sentiremos sua falta (não) -->
+      <div id="panel-nao" class="panel">
+        <div class="result-icon">&#127801;</div>
+        <p class="result-title">Sentiremos sua falta</p>
+        <p class="result-text">Obrigado por nos avisar. Você estará com a gente em pensamento no dia 11 de setembro de 2027.</p>
+        <div class="form-actions">
+          <button type="button" class="back-link" id="btn-voltar-nao">Mudei de ideia</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
