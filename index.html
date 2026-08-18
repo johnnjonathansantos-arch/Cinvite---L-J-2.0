@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Lais & Jonathan | 11.09.2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,40 +19,25 @@
 
   <div id="envelope-wrap">
 
+    <!-- Brilhos que saem de dentro do envelope ao abrir -->
+    <canvas id="env-sparkles" aria-hidden="true"></canvas>
+
     <!-- Instrução -->
-    <p id="pull-hint">Puxe o laço para abrir <span class="hint-arrow">↑</span></p>
+    <p id="pull-hint">Clique para abrir <span class="hint-arrow">↑</span></p>
 
     <!-- Envelope body -->
     <div id="envelope">
 
       <!-- Tampa traseira (flap) -->
-      <div id="env-flap"></div>
+      <div id="env-flap">
+        <!-- Monograma na tampa -->
+        <div id="env-monogram">L <span>&amp;</span> J</div>
+      </div>
 
       <!-- Corpo principal -->
       <div id="env-body">
         <!-- losango de fechamento frontal -->
         <div id="env-diamond"></div>
-
-        <!-- Monograma no centro -->
-        <div id="env-monogram">L <span>&amp;</span> J</div>
-
-        <!-- Laço (SVG interativo) -->
-        <svg id="bow-svg" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" aria-label="Laço — clique para abrir">
-          <!-- Fita vertical -->
-          <line x1="60" y1="38" x2="60" y2="80" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
-          <!-- Asa esquerda -->
-          <path id="bow-left"  d="M60 38 C45 28, 18 22, 10 30 C4 36, 18 48, 60 38Z" fill="#fff" opacity="0.92"/>
-          <!-- Asa direita -->
-          <path id="bow-right" d="M60 38 C75 28, 102 22, 110 30 C116 36, 102 48, 60 38Z" fill="#fff" opacity="0.92"/>
-          <!-- Nó central -->
-          <ellipse cx="60" cy="38" rx="9" ry="7" fill="#fbd6e8" stroke="#d6197e" stroke-width="1.5"/>
-          <!-- Fita pendurada esq -->
-          <path d="M55 44 Q40 62 36 78" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.7"/>
-          <!-- Fita pendurada dir -->
-          <path d="M65 44 Q80 62 84 78" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.7"/>
-          <!-- Zona clicável invisível -->
-          <rect id="bow-hit" x="0" y="0" width="120" height="80" fill="transparent" cursor="pointer"/>
-        </svg>
       </div>
 
     </div><!-- /envelope -->
@@ -124,9 +109,13 @@
         <div class="result-icon">&#127801;</div>
         <p class="result-title">Sentiremos sua falta</p>
         <p class="result-text">Obrigado por nos avisar. Você estará conosco em pensamento no dia 11 de setembro de 2027.</p>
-        <div class="form-actions">
-          <button type="button" class="back-link" id="btn-voltar-nao">Mudei de ideia</button>
-        </div>
+      </div>
+
+      <!-- Painel exibido quando o prazo de confirmação já passou -->
+      <div id="panel-encerrado" class="panel">
+        <div class="result-icon">&#8987;</div>
+        <p class="result-title">Prazo encerrado</p>
+        <p class="result-text">O prazo para confirmação de presença já foi encerrado. Qualquer dúvida, entre em contato pelo (11) 95131-5012.</p>
       </div>
     </div>
 
