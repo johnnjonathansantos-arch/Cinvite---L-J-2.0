@@ -122,8 +122,13 @@ html, body {
   width: min(380px, 90vw);
   height: min(260px, 62vw);
   cursor: pointer;
-  filter: drop-shadow(0 24px 48px rgba(140,10,80,.40));
+  filter: drop-shadow(0 24px 48px rgb(140, 10, 79));
   transition: transform .25s ease;
+  /* z-index elevado para ficar acima dos corações de fundo (::before e ::after do #envelope-scene) */
+  z-index: 5;
+  /* background sólido para bloquear completamente qualquer coração atrás do envelope */
+  background: var(--fuchsia-deep);
+  border-radius: 8px;
 }
 #envelope:hover { transform: translateY(-4px); }
 
@@ -133,10 +138,13 @@ html, body {
   top: 0; left: 0; right: 0;
   height: 55%;
   background: var(--fuchsia-deep);
+  border-radius: 8px;
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   transform-origin: top center;
   transition: transform .55s cubic-bezier(.4,0,.2,1);
   z-index: 3;
+  /* Tampa completamente opaca, sem transparência */
+  opacity: 1;
 }
 #envelope.opening #env-flap {
   transform: rotateX(180deg);
@@ -147,13 +155,16 @@ html, body {
   position: absolute;
   inset: 0;
   background: linear-gradient(170deg, var(--fuchsia-env) 0%, var(--fuchsia-deep) 100%);
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   z-index: 2;
+  /* Garante que o corpo do envelope seja completamente opaco,
+     bloqueando qualquer elemento atrás dele (como os corações do fundo) */
+  isolation: isolate;
 }
 
 /* Triângulos laterais e inferior (dobras do envelope) */
@@ -388,6 +399,33 @@ html, body {
   font-size: .85em;
   color: var(--fuchsia-pale);
   margin: -4px 0;
+}
+
+/* Controle de posição individual de cada nome
+   Ajuste os valores de 'top' conforme preferir:
+   negativo = sobe, positivo = desce */
+
+.eyebrow .vamos-casar {
+  display: block;
+  position: relative;
+  top: 0px; /* ← sobe/desce "Vamos nos casar" */
+}
+
+.names .name-lais {
+  display: block;
+  position: relative;
+  top: -3px; /* ← sobe/desce "Lais" */
+}
+.names .name-jonathan {
+  display: block;
+  position: relative;
+  top: -30px; /* ← sobe/desce "Jonathan" */
+}
+
+.names .amp {
+  display: block;
+  position: relative;
+  top: 3%; /* ← sobe/desce "&" */
 }
 
 .lede {
@@ -723,7 +761,6 @@ html, body {
   }
 
   /* ---- Resultado (confirmação / recusa) ---- */
-  .result-icon  { width: 44px; height: 44px; font-size: 20px; margin-bottom: 10px; }
   .result-title { font-size: 26px; }
   .result-text  { font-size: 14px; }
   .result-names { font-size: 11px; }
@@ -779,7 +816,7 @@ html, body {
 
 /* ================================================
    CORACOES DECORATIVOS - FUNDO DO ENVELOPE
-   Padrao repetido cobrindo toda a area,
+   Padrao desalinhado (assimetrico), igual ao fundo do convite,
    fucsia e azul-marinho com opacidade discreta
    ================================================ */
 #envelope-scene::before,
@@ -792,18 +829,18 @@ html, body {
   background-repeat: repeat;
 }
 
-/* Camada fucsia - tile 180x180 com coracoes fucsia */
+/* Camada fucsia - tile 220x220 com coracoes fucsia em posicoes assimetricas */
 #envelope-scene::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cg transform='translate(45 52)' opacity='0.12'%3E%3Cpath d='M0,-16 C5,-26 26,-26 26,-10 C26,2 14,14 0,26 C-14,14 -26,2 -26,-10 C-26,-26 -5,-26 0,-16Z' fill='%23d6197e'/%3E%3C/g%3E%3Cg transform='translate(135 130)' opacity='0.10'%3E%3Cpath d='M0,-11 C4,-18 18,-18 18,-7 C18,1 10,10 0,18 C-10,10 -18,1 -18,-7 C-18,-18 -4,-18 0,-11Z' fill='%23e766a8'/%3E%3C/g%3E%3Cg transform='translate(160 55) rotate(15)' opacity='0.08'%3E%3Cpath d='M0,-8 C3,-13 13,-13 13,-5 C13,1 7,7 0,13 C-7,7 -13,1 -13,-5 C-13,-13 -3,-13 0,-8Z' fill='%23d6197e'/%3E%3C/g%3E%3Cg transform='translate(20 148) rotate(-12)' opacity='0.08'%3E%3Cpath d='M0,-8 C3,-13 13,-13 13,-5 C13,1 7,7 0,13 C-7,7 -13,1 -13,-5 C-13,-13 -3,-13 0,-8Z' fill='%23c4166d'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'%3E%3Cg transform='translate(42 55)' opacity='0.12'%3E%3Cpath d='M0,-18 C6,-29 29,-29 29,-11 C29,3 16,16 0,29 C-16,16 -29,3 -29,-11 C-29,-29 -6,-29 0,-18Z' fill='%23d6197e'/%3E%3C/g%3E%3Cg transform='translate(185 145)' opacity='0.10'%3E%3Cpath d='M0,-11 C4,-18 18,-18 18,-7 C18,1 10,10 0,18 C-10,10 -18,1 -18,-7 C-18,-18 -4,-18 0,-11Z' fill='%23e766a8'/%3E%3C/g%3E%3Cg transform='translate(165 28) rotate(15)' opacity='0.08'%3E%3Cpath d='M0,-8 C3,-13 13,-13 13,-5 C13,1 7,7 0,13 C-7,7 -13,1 -13,-5 C-13,-13 -3,-13 0,-8Z' fill='%23d6197e'/%3E%3C/g%3E%3Cg transform='translate(28 195) rotate(-12)' opacity='0.08'%3E%3Cpath d='M0,-8 C3,-13 13,-13 13,-5 C13,1 7,7 0,13 C-7,7 -13,1 -13,-5 C-13,-13 -3,-13 0,-8Z' fill='%23c4166d'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 220px 220px;
   opacity: 1;
 }
 
-/* Camada azul-marinho - tile 180x180 deslocado em meia-celula */
+/* Camada azul-marinho - tile 220x220 deslocado em meia-celula */
 #envelope-scene::after {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cg transform='translate(130 50)' opacity='0.10'%3E%3Cpath d='M0,-16 C5,-26 26,-26 26,-10 C26,2 14,14 0,26 C-14,14 -26,2 -26,-10 C-26,-26 -5,-26 0,-16Z' fill='%230d1b5e'/%3E%3C/g%3E%3Cg transform='translate(42 132)' opacity='0.09'%3E%3Cpath d='M0,-11 C4,-18 18,-18 18,-7 C18,1 10,10 0,18 C-10,10 -18,1 -18,-7 C-18,-18 -4,-18 0,-11Z' fill='%23162a8a'/%3E%3C/g%3E%3Cg transform='translate(18 55) rotate(-10)' opacity='0.07'%3E%3Cpath d='M0,-8 C3,-13 13,-13 13,-5 C13,1 7,7 0,13 C-7,7 -13,1 -13,-5 C-13,-13 -3,-13 0,-8Z' fill='%230d1b5e'/%3E%3C/g%3E%3Cg transform='translate(158 148) rotate(10)' opacity='0.07'%3E%3Cpath d='M0,-8 C3,-13 13,-13 13,-5 C13,1 7,7 0,13 C-7,7 -13,1 -13,-5 C-13,-13 -3,-13 0,-8Z' fill='%23162a8a'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 180px 180px;
-  background-position: 90px 90px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'%3E%3Cg transform='translate(162 145)' opacity='0.10'%3E%3Cpath d='M0,-18 C6,-29 29,-29 29,-11 C29,3 16,16 0,29 C-16,16 -29,3 -29,-11 C-29,-29 -6,-29 0,-18Z' fill='%230d1b5e'/%3E%3C/g%3E%3Cg transform='translate(42 190)' opacity='0.09'%3E%3Cpath d='M0,-11 C4,-18 18,-18 18,-7 C18,1 10,10 0,18 C-10,10 -18,1 -18,-7 C-18,-18 -4,-18 0,-11Z' fill='%23162a8a'/%3E%3C/g%3E%3Cg transform='translate(18 55) rotate(-10)' opacity='0.07'%3E%3Cpath d='M0,-8 C3,-13 13,-13 13,-5 C13,1 7,7 0,13 C-7,7 -13,1 -13,-5 C-13,-13 -3,-13 0,-8Z' fill='%230d1b5e'/%3E%3C/g%3E%3Cg transform='translate(185 28) rotate(10)' opacity='0.07'%3E%3Cpath d='M0,-8 C3,-13 13,-13 13,-5 C13,1 7,7 0,13 C-7,7 -13,1 -13,-5 C-13,-13 -3,-13 0,-8Z' fill='%23162a8a'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  background-position: 110px 110px;
   opacity: 1;
 }
 

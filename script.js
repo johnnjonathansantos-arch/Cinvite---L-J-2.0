@@ -278,7 +278,7 @@
     // depois lança uma rajada e um fluxo contínuo que se encerra
     // automaticamente ao fim de 3 segundos (total de chuva = 3s).
     var PETAL_START_DELAY = 3000;  // ms — delay antes das pétalas aparecerem
-    var PETAL_RAIN_DURATION = 10000; // ms — duração total da chuva de pétalas
+    var PETAL_RAIN_DURATION = 8000; // ms — duração total da chuva de pétalas
 
     setTimeout(function () {
       // Marca o fim da chuva
