@@ -169,6 +169,9 @@
   /* ================================================
      PÉTALAS
      ================================================ */
+  // Cor da borda dourada elegante aplicada ao contorno de cada pétala
+  var GOLD_STROKE = 'rgba(212,175,55,0.72)';
+
   // 4 formatos diferentes de pétala de rosa realista
   var petalShapes = [
     // Pétala longa côncava — pétala externa de rosa
@@ -179,7 +182,8 @@
         + '<stop offset="50%" stop-color="'+c2+'"/>'
         + '<stop offset="100%" stop-color="'+c3+'"/>'
         + '</radialGradient></defs>'
-        + '<path d="M20 2 C28 6 38 18 36 34 C34 46 26 50 20 50 C14 50 6 46 4 34 C2 18 12 6 20 2Z" fill="url(#pg0)" opacity="0.88"/>'
+        // Contorno dourado elegante — stroke externo sobre o preenchimento
+        + '<path d="M20 2 C28 6 38 18 36 34 C34 46 26 50 20 50 C14 50 6 46 4 34 C2 18 12 6 20 2Z" fill="url(#pg0)" opacity="0.88" stroke="'+GOLD_STROKE+'" stroke-width="1.1"/>'
         + '<path d="M20 4 C24 10 30 22 28 36" stroke="'+c1+'" stroke-width="0.8" fill="none" opacity="0.4"/>'
         + '<path d="M20 4 C18 12 16 26 17 40" stroke="'+c1+'" stroke-width="0.6" fill="none" opacity="0.3"/>'
         + '</svg>';
@@ -192,7 +196,8 @@
         + '<stop offset="55%" stop-color="'+c2+'"/>'
         + '<stop offset="100%" stop-color="'+c3+'"/>'
         + '</radialGradient></defs>'
-        + '<path d="M22 3 C32 4 42 14 40 28 C38 40 30 44 22 44 C14 44 6 40 4 28 C2 14 12 4 22 3Z" fill="url(#pg1)" opacity="0.85"/>'
+        // Contorno dourado elegante
+        + '<path d="M22 3 C32 4 42 14 40 28 C38 40 30 44 22 44 C14 44 6 40 4 28 C2 14 12 4 22 3Z" fill="url(#pg1)" opacity="0.85" stroke="'+GOLD_STROKE+'" stroke-width="1.1"/>'
         + '<path d="M22 5 C28 12 34 24 30 36" stroke="'+c1+'" stroke-width="0.9" fill="none" opacity="0.35"/>'
         + '<path d="M22 5 C20 14 18 28 19 38" stroke="'+c1+'" stroke-width="0.7" fill="none" opacity="0.28"/>'
         + '<path d="M22 5 C16 12 10 22 14 35" stroke="'+c1+'" stroke-width="0.6" fill="none" opacity="0.25"/>'
@@ -206,7 +211,8 @@
         + '<stop offset="48%" stop-color="'+c2+'"/>'
         + '<stop offset="100%" stop-color="'+c3+'"/>'
         + '</radialGradient></defs>'
-        + '<path d="M23 2 C31 2 40 8 42 18 C44 28 40 38 34 44 C30 48 26 48 23 48 C20 48 16 48 12 44 C6 38 2 28 4 18 C6 8 15 2 23 2Z" fill="url(#pg2)" opacity="0.87"/>'
+        // Contorno dourado elegante
+        + '<path d="M23 2 C31 2 40 8 42 18 C44 28 40 38 34 44 C30 48 26 48 23 48 C20 48 16 48 12 44 C6 38 2 28 4 18 C6 8 15 2 23 2Z" fill="url(#pg2)" opacity="0.87" stroke="'+GOLD_STROKE+'" stroke-width="1.1"/>'
         + '<path d="M23 4 C27 10 33 22 31 38" stroke="'+c1+'" stroke-width="0.9" fill="none" opacity="0.32"/>'
         + '<path d="M23 4 C21 14 19 30 20 42" stroke="'+c1+'" stroke-width="0.7" fill="none" opacity="0.26"/>'
         + '</svg>';
@@ -219,7 +225,8 @@
         + '<stop offset="50%" stop-color="'+c2+'"/>'
         + '<stop offset="100%" stop-color="'+c3+'"/>'
         + '</radialGradient></defs>'
-        + '<path d="M4 18 C8 6 22 2 34 4 C44 6 50 12 48 20 C46 28 36 34 24 34 C12 34 2 28 4 18Z" fill="url(#pg3)" opacity="0.84"/>'
+        // Contorno dourado elegante
+        + '<path d="M4 18 C8 6 22 2 34 4 C44 6 50 12 48 20 C46 28 36 34 24 34 C12 34 2 28 4 18Z" fill="url(#pg3)" opacity="0.84" stroke="'+GOLD_STROKE+'" stroke-width="1.1"/>'
         + '<path d="M8 14 C18 10 32 10 44 16" stroke="'+c1+'" stroke-width="0.8" fill="none" opacity="0.3"/>'
         + '</svg>';
     }
@@ -267,10 +274,37 @@
   }
 
   function startPetals() {
-    // rajada inicial
-    for (var i = 0; i < 12; i++) setTimeout(spawnPetal, i * 220);
-    // fluxo contínuo
-    setInterval(spawnPetal, 850);
+    // Aguarda 3 segundos antes de qualquer pétala aparecer,
+    // depois lança uma rajada e um fluxo contínuo que se encerra
+    // automaticamente ao fim de 3 segundos (total de chuva = 3s).
+    var PETAL_START_DELAY = 3000;  // ms — delay antes das pétalas aparecerem
+    var PETAL_RAIN_DURATION = 10000; // ms — duração total da chuva de pétalas
+
+    setTimeout(function () {
+      // Marca o fim da chuva
+      var rainEnd = Date.now() + PETAL_RAIN_DURATION;
+
+      // Rajada inicial — espaçada dentro da janela de 3s
+      for (var i = 0; i < 12; i++) {
+        (function (idx) {
+          var t = idx * 220;
+          if (t < PETAL_RAIN_DURATION) {
+            setTimeout(spawnPetal, t);
+          }
+        }(i));
+      }
+
+      // Fluxo contínuo — para quando a janela de 3s se esgotar
+      var interval = setInterval(function () {
+        if (Date.now() >= rainEnd) {
+          clearInterval(interval);
+          // Remove a classe active para que novas pétalas não sejam criadas
+          petalField.classList.remove('active');
+          return;
+        }
+        spawnPetal();
+      }, 850);
+    }, PETAL_START_DELAY);
   }
 
   /* ================================================
