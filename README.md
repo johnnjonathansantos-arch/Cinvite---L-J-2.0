@@ -1,4 +1,4 @@
-# 💌 Convite de Casamento — Lais & Jonathan
+# 💌 Convite de Casamento
 
 Convite de casamento digital, interativo e responsivo, desenvolvido com HTML, CSS e JavaScript puros (vanilla). O convite simula um envelope físico que o convidado abre com um clique, revelando o convite com animações de escrita, chuva de pétalas e um formulário de confirmação de presença (RSVP).
 
