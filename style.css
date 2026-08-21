@@ -679,13 +679,21 @@ html, body {
   }
 
   .names {
-    font-size: clamp(36px, 12vw, 52px);
-    line-height: 1.05;
+    font-size: clamp(36px, 11vw, 48px);
+    line-height: 1.0;
+  }
+
+  .names .name-lais {
+    top: 0px;
+  }
+
+  .names .name-jonathan {
+    top: -14px; /* sobreposição reduzida para mobile */
   }
 
   .names .amp {
     font-size: 0.75em;
-    margin: -4px 0;
+    margin: -2px 0;
   }
 
   .lede {
@@ -779,7 +787,9 @@ html, body {
     height: 114%;
   }
 
-  .names   { font-size: 34px; }
+  .names   { font-size: 34px; line-height: 1.0; }
+  .names .name-lais     { top: 0px; }
+  .names .name-jonathan { top: -10px; }
   .date    { font-size: 17px; }
   .weekday { font-size: 13px; }
   .lede    { font-size: 12px; }
@@ -793,6 +803,7 @@ html, body {
    ================================================ */
 .invite-card {
   outline: none;
+  background-color: #ffffff; /* garante fundo branco sólido — impede corações do fundo de aparecerem através do cartão */
   box-shadow:
     0 20px 60px -15px rgba(140,10,80,0.25),
     0 0 0 1.5px rgba(212,175,55,0.55),
