@@ -12,6 +12,7 @@
   var sparkleCanvas = document.getElementById('env-sparkles');
   var inviteScene   = document.getElementById('invite-scene');
   var petalField    = document.getElementById('petal-field');
+  var dustField     = document.getElementById('dust-field');
   var pullHint      = document.getElementById('pull-hint');
   var opened        = false;
 
@@ -129,6 +130,7 @@
       inviteScene.classList.add('visible');
 
       petalField.classList.add('active');
+      dustField.classList.add('active');
       startPetals();
 
       animateWriteIn();
@@ -273,6 +275,74 @@
     setTimeout(function () { p.remove(); }, (fallDur + delay) * 1000 + 400);
   }
 
+  // Formas de partícula de pó — delicadas e elegantes
+  var dustShapes = [
+    // Losango dourado
+    function(color) {
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 14">'
+        + '<polygon points="5,0 10,7 5,14 0,7" fill="' + color + '" opacity="0.82"/>'
+        + '</svg>';
+    },
+    // Círculo com brilho
+    function(color) {
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">'
+        + '<circle cx="5" cy="5" r="4" fill="' + color + '" opacity="0.75"/>'
+        + '<circle cx="3" cy="3" r="1.2" fill="#fff" opacity="0.55"/>'
+        + '</svg>';
+    },
+    // Estrela de 4 pontas
+    function(color) {
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">'
+        + '<polygon points="6,0 7.5,4.5 12,6 7.5,7.5 6,12 4.5,7.5 0,6 4.5,4.5" fill="' + color + '" opacity="0.80"/>'
+        + '</svg>';
+    },
+    // Ponto oval
+    function(color) {
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 12">'
+        + '<ellipse cx="4" cy="6" rx="3" ry="5" fill="' + color + '" opacity="0.70"/>'
+        + '</svg>';
+    }
+  ];
+
+  // Paleta de pó: dourado, rosê e lilás suave
+  var dustColors = [
+    '#d4af37',  // dourado
+    '#e8c97a',  // dourado claro
+    '#f7e0b0',  // champagne
+    '#f0b8d4',  // rosê
+    '#e8a0c8',  // rosê médio
+    '#d4aee8',  // lilás suave
+  ];
+
+  function spawnDust() {
+    if (reduceMotion || !dustField.classList.contains('active')) return;
+
+    var shapeIdx = Math.floor(Math.random() * dustShapes.length);
+    var color    = dustColors[Math.floor(Math.random() * dustColors.length)];
+    var svgStr   = dustShapes[shapeIdx](color);
+
+    var d = document.createElement('div');
+    d.className = 'dust-particle';
+
+    var size     = 4 + Math.random() * 7;      // 4–11px — bem pequeno
+    var startX   = Math.random() * 100;
+    var fallDur  = 7 + Math.random() * 9;      // 7–16s — cai devagar como as pétalas
+    var swayDur  = 2 + Math.random() * 3;
+    var delay    = Math.random() * 0.8;
+    var rotStart = Math.random() * 360;
+
+    d.style.width             = size + 'px';
+    d.style.height            = size + 'px';
+    d.style.left              = startX + 'vw';
+    d.style.setProperty('--rot-start', rotStart + 'deg');
+    d.style.animationDuration = fallDur + 's, ' + swayDur + 's';
+    d.style.animationDelay    = delay + 's, 0s';
+    d.innerHTML               = svgStr;
+
+    dustField.appendChild(d);
+    setTimeout(function () { d.remove(); }, (fallDur + delay) * 1000 + 400);
+  }
+
   function startPetals() {
     // Aguarda 3 segundos antes de qualquer pétala aparecer,
     // depois lança uma rajada e um fluxo contínuo que se encerra
@@ -290,19 +360,22 @@
           var t = idx * 220;
           if (t < PETAL_RAIN_DURATION) {
             setTimeout(spawnPetal, t);
+            setTimeout(spawnDust,  t + 110); // pó levemente defasado — efeito intercalado
           }
         }(i));
       }
 
-      // Fluxo contínuo — para quando a janela de 3s se esgotar
+      // Fluxo contínuo — para quando a janela de 8s se esgotar
       var interval = setInterval(function () {
         if (Date.now() >= rainEnd) {
           clearInterval(interval);
-          // Remove a classe active para que novas pétalas não sejam criadas
+          // Remove a classe active para que novas pétalas e pó não sejam criados
           petalField.classList.remove('active');
+          dustField.classList.remove('active');
           return;
         }
         spawnPetal();
+        spawnDust();
       }, 850);
     }, PETAL_START_DELAY);
   }
@@ -342,13 +415,19 @@
 
   document.getElementById('rsvp-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    var nome        = document.getElementById('nome').value.trim();
-    var acompanhante = document.getElementById('acompanhante').value.trim();
+    var nome = document.getElementById('nome').value.trim();
     if (!nome) { document.getElementById('nome').focus(); return; }
 
     var texto = 'Mal podemos esperar para celebrar esse dia com você, ' + nome + '!';
-    if (acompanhante) texto += ' Você e ' + acompanhante + ' são muito bem-vindos.';
     document.getElementById('obrigado-texto').textContent = texto;
+
+    // Mensagem sobre acompanhante via WhatsApp da assessoria
+    var msgAcomp = document.getElementById('obrigado-acompanhante-msg');
+    if (msgAcomp) {
+      msgAcomp.textContent = 'Informe pelo WhatsApp da acessoria se vai levar um acompanhante e os dados do mesmo';
+      msgAcomp.style.display = 'block';
+    }
+
     showPanel(panels.obrigado);
   });
 

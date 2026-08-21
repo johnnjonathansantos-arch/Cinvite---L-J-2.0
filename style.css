@@ -75,6 +75,43 @@ html, body {
 }
 
 /* ================================================
+   PÓ DECORATIVO — mesmo container/timing das pétalas
+   ================================================ */
+#dust-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99; /* logo abaixo das pétalas */
+  overflow: hidden;
+  display: none;
+}
+#dust-field.active { display: block; }
+
+.dust-particle {
+  position: absolute;
+  top: -20px;
+  opacity: 0;
+  will-change: transform, opacity, margin-left;
+  animation-name: dust-fall, dust-sway;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: 1, infinite;
+  pointer-events: none;
+}
+
+@keyframes dust-fall {
+  0%   { transform: translateY(-3vh) rotate(var(--rot-start, 0deg)); opacity: 0; }
+  8%   { opacity: 0.90; }
+  80%  { opacity: 0.60; }
+  100% { transform: translateY(112vh) rotate(calc(var(--rot-start, 0deg) + 420deg)); opacity: 0; }
+}
+@keyframes dust-sway {
+  0%   { margin-left: 0px; }
+  25%  { margin-left: 18px; }
+  60%  { margin-left: -12px; }
+  100% { margin-left: 6px; }
+}
+
+/* ================================================
    CENA ENVELOPE
    ================================================ */
 #envelope-scene {
@@ -593,6 +630,7 @@ html, body {
 
 .result-title { font-family:'Great Vibes',cursive; font-size:32px; color:var(--fuchsia-deep); margin:0 0 6px; }
 .result-text  { font-size:16px; line-height:1.6; color:var(--fuchsia-ink); max-width:320px; margin:0 auto; }
+.result-acompanhante { margin-top:12px; font-size:14px; font-style:italic; color:var(--fuchsia); }
 .result-names { margin-top:12px; font-family:'Montserrat',sans-serif; font-size:12px; letter-spacing:.05em; color:var(--fuchsia); }
 
 /* ================================================
@@ -609,11 +647,25 @@ html, body {
 
 /* Tablet: até 768px */
 @media (max-width: 768px) {
+  /* ---- Cena do convite ---- */
   #invite-scene {
     padding: 0;
     align-items: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
+  /* ---- Envelope ---- */
+  #envelope-scene {
+    padding: 32px 24px;
+  }
+
+  #envelope {
+    width: 72vw;
+    height: 50vw;
+  }
+
+  /* ---- Cartão ---- */
   .invite-card {
     max-width: 88vw;
     padding: 72px 52px 72px;
@@ -626,6 +678,26 @@ html, body {
     width: 120%;
     height: 120%;
   }
+
+  /* ---- Tipografia ---- */
+  .names {
+    font-size: clamp(44px, 10vw, 62px);
+    line-height: 1.0;
+  }
+
+  .names .name-jonathan { top: -16px; }
+
+  .date    { font-size: clamp(20px, 5vw, 32px); }
+  .weekday { font-size: clamp(14px, 3.5vw, 20px); }
+  .lede    { font-size: 14px; max-width: 100%; }
+  .venue   { font-size: 14px; }
+  .contact { font-size: 12px; }
+
+  /* ---- RSVP ---- */
+  .rsvp-buttons { gap: 10px; justify-content: center; }
+
+  /* ---- Formulário ---- */
+  .form-actions { margin-top: 18px; gap: 10px; }
 }
 
 /* Mobile: até 480px */
@@ -797,6 +869,41 @@ html, body {
   .venue   { font-size: 12px; }
 
   .btn { padding: 9px 18px; font-size: 10px; }
+}
+
+/* ================================================
+   TABLET LANDSCAPE / CELULAR GRANDE (481px–768px)
+   Breakpoint de ajuste fino para telas entre mobile e tablet portrait
+   ================================================ */
+@media (min-width: 481px) and (max-width: 768px) {
+  .invite-card {
+    padding: 64px 48px 68px;
+  }
+
+  .names {
+    font-size: clamp(40px, 9vw, 58px);
+    line-height: 1.0;
+  }
+
+  .names .name-jonathan { top: -14px; }
+}
+
+/* ================================================
+   TABLET PORTRAIT GRANDE / iPad (769px–1024px)
+   Garante que o convite não fique nem muito pequeno nem muito grande
+   ================================================ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .invite-card {
+    max-width: 520px;
+    padding: 76px 60px 76px;
+  }
+
+  #envelope {
+    width: 60vw;
+    height: 41vw;
+    max-width: 480px;
+    max-height: 328px;
+  }
 }
 
 /* ================================================

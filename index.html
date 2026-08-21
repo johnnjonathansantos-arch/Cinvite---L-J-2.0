@@ -13,6 +13,7 @@
 
 <!-- Pétalas (ativadas só após abrir envelope) -->
 <div id="petal-field" aria-hidden="true"></div>
+<div id="dust-field"  aria-hidden="true"></div>
 
 <!-- ===================== ENVELOPE ===================== -->
 <div id="envelope-scene">
@@ -51,6 +52,7 @@
 <div id="invite-scene" aria-hidden="true">
 
   <div id="petal-field" aria-hidden="true"></div>
+  <div id="dust-field"  aria-hidden="true"></div>
 
   <section class="invite-card" role="region" aria-label="Convite de casamento de Lais e Jonathan">
 
@@ -88,10 +90,6 @@
             <label for="nome">Nome completo</label>
             <input type="text" id="nome" name="nome" autocomplete="name" required>
           </div>
-          <div class="field">
-            <label for="acompanhante">Nome completo do acompanhante</label>
-            <input type="text" id="acompanhante" name="acompanhante" autocomplete="off" placeholder="Se não houver, deixe em branco">
-          </div>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Confirmar presença</button>
             <button type="button" class="back-link" id="btn-voltar-form">Voltar</button>
@@ -103,6 +101,7 @@
         <div class="result-icon">&#10084;</div>
         <p class="result-title">Presença confirmada</p>
         <p class="result-text" id="obrigado-texto">Mal podemos esperar para celebrar esse dia com você!</p>
+        <p class="result-text result-acompanhante" id="obrigado-acompanhante-msg" style="display:none;"></p>
         <p class="result-names">(11) 95131-5012 &middot; Aguardo sua confirmação!</p>
       </div>
 
