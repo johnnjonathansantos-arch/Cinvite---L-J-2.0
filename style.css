@@ -398,7 +398,7 @@ html, body {
   display: block;
   font-size: .85em;
   color: var(--fuchsia-pale);
-  margin: -4px 0;
+  margin: 25px 0; /* ← sobe/desce "&" */
 }
 
 /* Controle de posição individual de cada nome
@@ -408,24 +408,25 @@ html, body {
 .eyebrow .vamos-casar {
   display: block;
   position: relative;
-  top: 3px; /* ← sobe/desce "Vamos nos casar" */
+  top: 0%; /* ← sobe/desce "Vamos nos casar" */
 }
 
 .names .name-lais {
   display: block;
   position: relative;
-  top: -2px; /* ← sobe/desce "Lais" */
+  top: 10px; /* ← sobe/desce "Lais" */
 }
+
 .names .name-jonathan {
   display: block;
   position: relative;
-  top: -30px; /* ← sobe/desce "Jonathan" */
+  top: -50px; /* ← sobe/desce "Jonathan" */
 }
 
-.names .amp {
+#divider-top {
   display: block;
   position: relative;
-  top: 0%;
+  top: -25px;
 }
 
 .lede {
